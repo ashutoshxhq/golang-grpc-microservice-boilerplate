@@ -3,14 +3,6 @@ build:
 	go build main.go
 	
 run:
-	nmake run-user
-	nmake run-auth
-
-run-user:
-	go run main.go
-
-run-auth:
-	cd ../auth-service/
 	go run main.go
 
 user:
