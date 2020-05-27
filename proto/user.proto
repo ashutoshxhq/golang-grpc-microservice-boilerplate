@@ -1,0 +1,126 @@
+
+syntax = "proto3";
+package user;
+option go_package = "egnite.app/microservices/user/proto/user";
+import "google/api/annotations.proto";
+
+message User {
+  string id = 1;
+  string name = 2;
+  string username = 3;
+  string phone = 4;
+  string email = 5;
+  string role = 6;
+}
+
+message GetUserByIDRequest{
+  string id = 1;
+}
+
+message GetUserByIDResponse {
+  User user = 1;
+  bool success = 2;
+  string err = 3;
+}
+
+message GetUserByUsernameRequest{
+  string username = 1;
+}
+
+message GetUserByUsernameResponse {
+  User user = 1;
+  bool success = 2;
+  string err = 3;
+}
+
+message GetUserByUsernameWithPasswordRequest{
+  string username = 1;
+}
+
+message GetUserByUsernameWithPasswordResponse{
+  User user = 1;
+  string password = 2;
+  bool success = 3;
+  string err = 4;
+}
+
+message GetUsersRequest {
+}
+
+message GetUsersResponse {
+  repeated User users = 1;
+  bool success = 2;
+  string err = 3;
+}
+
+message CreateUserRequest {
+  User user = 1;
+  string password = 2;
+}
+
+message CreateUserResponse {
+  string id = 1;
+  bool success = 2;
+  string err = 3;
+}
+
+message UpdateUserByUsernameRequest {
+  User user = 1;
+}
+
+message UpdateUserByUsernameResponse {
+  string id = 1;
+  bool success = 2;
+  string err = 3;
+}
+
+message DeleteUserByIDRequest{
+  string id = 1;
+}
+
+message DeleteUserByIDResponse{
+  bool success = 1;
+  string err = 2;
+}
+
+service UserService {
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/users"
+    };
+  }
+  rpc GetUserByID(GetUserByIDRequest) returns (GetUserByIDResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/users/{id}"
+    };
+  }
+  rpc GetUserByUsername(GetUserByUsernameRequest) returns (GetUserByUsernameResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/users/username"
+      body: "*"
+    };
+  }
+  rpc GetUserByUsernameWithPassword(GetUserByUsernameWithPasswordRequest) returns (GetUserByUsernameWithPasswordResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/users/usernamewithpassword"
+      body: "*"
+    };
+  }
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/users"
+      body: "*"
+    };
+  }
+  rpc UpdateUserByUsername(UpdateUserByUsernameRequest) returns (UpdateUserByUsernameResponse) {
+    option (google.api.http) = {
+      patch: "/api/v1/users"
+      body: "*"
+    };
+  }
+  rpc DeleteUserByID(DeleteUserByIDRequest) returns (DeleteUserByIDResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/users/{id}"
+    };
+  }
+}
